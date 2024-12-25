@@ -8,7 +8,7 @@ router.get('/trigger', (req, res) => {
         throw error;
     } catch (error) {
         res.status(error.status || 500).json({ 
-            success: false, 
+            success: true, 
             error: error.message || 'Unknown error on server' 
         });
     }
