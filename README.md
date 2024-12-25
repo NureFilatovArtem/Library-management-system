@@ -41,6 +41,7 @@ DB_NAME=your_database_name
 DB_PORT=5432
 
 4. Запуск серверної частини (Back-End)
+
 Запустіть сервер:
 npm run dev або npm start
 
