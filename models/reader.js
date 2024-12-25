@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     });
   
+    Reader.associate = (models) => {
+        Reader.hasMany(models.Borrowing, {
+          foreignKey: 'reader_id',
+          as: 'borrowings',
+        });
+      };
+      
+
     return Reader;
   };
   

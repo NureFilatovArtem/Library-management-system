@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Borrowing } = require('../models').sequelize.models;
+const { Borrowing, Reader, Book } = require('../models').sequelize.models;
 
 // Get all borrowings
 router.get('/', async (req, res) => {
@@ -12,15 +12,43 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Add a new borrowing
 router.post('/', async (req, res) => {
-  try {
-    const borrowing = await Borrowing.create(req.body);
-    res.status(201).json(borrowing);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to create borrowing' });
-  }
-});
+    try {
+      console.log('Request Body:', req.body); // Логируем входящий запрос
+  
+      const { reader_id, book_id, borrow_date, return_date } = req.body;
+  
+      // Проверяем, существует ли читатель с данным reader_id
+      const reader = await Reader.findByPk(reader_id);
+      if (!reader) {
+        console.error(`Reader with ID ${reader_id} not found.`);
+        return res.status(400).json({ error: 'Reader does not exist' });
+      }
+  
+      // Проверяем, существует ли книга с данным book_id
+      const book = await Book.findByPk(book_id);
+      if (!book) {
+        console.error(`Book with ID ${book_id} not found.`);
+        return res.status(400).json({ error: 'Book does not exist' });
+      }
+  
+      // Если проверки пройдены, создаем borrowing
+      const borrowing = await Borrowing.create({
+        reader_id,
+        book_id,
+        borrow_date,
+        return_date,
+      });
+  
+      console.log('Borrowing created successfully:', borrowing); // Лог успешного создания
+  
+      res.status(201).json(borrowing);
+    } catch (error) {
+      console.error('Error creating borrowing:', error); // Логируем ошибку
+      res.status(500).json({ error: 'Failed to create borrowing' });
+    }
+  });
+  
 
 // Update a borrowing
 router.put('/:id', async (req, res) => {

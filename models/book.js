@@ -25,6 +25,14 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     });
   
+    Book.associate = (models) => {
+        Book.hasMany(models.Borrowing, {
+          foreignKey: 'book_id',
+          as: 'borrowings',
+        });
+      };
+      
+
     return Book;
   };
   
