@@ -4,7 +4,7 @@ const { sequelize } = require('../models');
 const { Book } = sequelize.models;
 
 // GET: Отримати всі книги
-router.get('/', async (req, res) => {
+router.get('/books', async (req, res) => {
   try {
     const books = await Book.findAll();
     console.log('Fetched books:', books);

@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const cors = require('cors');
 const logger = require('./middlewares/logger');
@@ -9,15 +9,15 @@ const exceptionRoutes = require('./routes/exception');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'http://localhost:3000'],
+    origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    // credentials: true
 }));
 
-// app.use(bodyParser.json());
-app.use(express.json()); // Для обробки JSON у POST/PUT
-app.use(express.urlencoded({ extended: true })); // Для обробки form-data
+app.use(bodyParser.json());
+// app.use(express.json()); // Для обробки JSON у POST/PUT
+// app.use(express.urlencoded({ extended: true })); // Для обробки form-data
 
 // Exceptions
 
@@ -52,6 +52,6 @@ app.listen(PORT, () => {
 // app.use(express.static(path.join(__dirname, 'public')));
 // const calculateRoutes = require('./routes/calculate');
 // app.use('/calculate', calculateRoutes);
-// app.use(cors(...));
+
 // const PORT = process.env.PORT || 3000;
 // app.listen(PORT, ...);
